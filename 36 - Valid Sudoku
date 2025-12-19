@@ -1,0 +1,39 @@
+"""
+Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
+
+Each row must contain the digits 1-9 without repetition.
+Each column must contain the digits 1-9 without repetition.
+Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+Note:
+
+A Sudoku board (partially filled) could be valid but is not necessarily solvable.
+Only the filled cells need to be validated according to the mentioned rules.
+"""
+
+class Solution:
+    def row_valid(self, row: list[str]) -> bool:
+        numbers_only: list[str] = [num for num in row if num != "."]
+        if len(numbers_only) != len(set(numbers_only)):
+            return False
+        return True
+
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        dimension = 9
+        for row in board:
+            if not self.row_valid(row):
+                return False
+
+        for col_idx in range(dimension):
+            row = [board[idx][col_idx] for idx in range(dimension)]
+            if not self.row_valid(row):
+                return False
+
+        for row_idx in range(3):
+            for col_idx in range(3):
+                row = board[3 * row_idx][3 * col_idx:3 * (col_idx + 1)]
+                row += board[3 * row_idx + 1][3 * col_idx:3 * (col_idx + 1)]
+                row += board[3 * row_idx + 2][3 * col_idx:3 * (col_idx + 1)]
+                if not self.row_valid(row):
+                    return False
+        
+        return True
