@@ -1,0 +1,22 @@
+class Solution:
+    def combinationSum(self, candidates: list[int], target: int) -> list[list[int]]:
+        temp = []
+        combinations = []
+
+        def helper(new_target):
+            if new_target < 0:
+                return
+
+            if new_target == 0:
+                combinations.append(sorted(temp[:]))
+                return
+            
+            for i in candidates:
+                temp.append(i)
+                helper(new_target - i)
+                temp.pop()
+
+            return temp
+            
+        helper(target)
+        return [list(t) for t in set(tuple(element) for element in combinations)]
