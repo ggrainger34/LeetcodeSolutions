@@ -1,0 +1,22 @@
+class Solution:
+    def generateParenthesis(self, n: int) -> list[str]:
+        temp = []
+        parentheses_list = []
+
+        def helper(open_count, close_count):
+            if open_count == n and close_count == n:
+                parentheses_list.append("".join(temp))
+                return
+
+            if open_count < n:
+                temp.append("(")
+                helper(open_count + 1, close_count)
+                temp.pop()
+
+            if close_count < open_count:
+                temp.append(")")
+                helper(open_count, close_count + 1)
+                temp.pop()
+
+        helper(0, 0)
+        return parentheses_list
