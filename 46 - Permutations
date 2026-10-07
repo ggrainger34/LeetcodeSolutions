@@ -1,0 +1,19 @@
+class Solution:
+    def permute(self, nums: list[int]) -> list[list[int]]:
+        temp = []
+        permutations = []
+
+        def helper():
+            remaining = list(set(nums) - set(temp))
+
+            if remaining == []:
+                permutations.append(temp[:])
+                return
+
+            for i in remaining:
+                temp.append(i)
+                helper()
+                temp.pop()
+
+        helper()
+        return permutations
