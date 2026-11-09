@@ -1,0 +1,33 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+from math import inf
+
+class Solution:
+    def mergeKLists(self, lists: list[ListNode | None]) -> ListNode | None:
+        # Create dummy head
+        dummy = ListNode()
+        cur = dummy
+
+        while any(l for l in lists):
+            smallest, smallest_index = inf, None
+
+            # Loop through lists to find the smallest
+            for i, l in enumerate(lists):
+
+                # Check every loop
+                if l and l.val < smallest:
+                    smallest, smallest_index = l.val, i
+
+            # Find the index of that linked list and increment
+            lists[smallest_index] = lists[smallest_index].next
+
+            # Create a new node and append it to the res chain
+            cur.next = ListNode(smallest)
+            cur = cur.next
+
+        # Return res head
+        return dummy.next
